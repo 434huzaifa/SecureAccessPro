@@ -2,6 +2,8 @@ require('dotenv').config();
 const express=require('express')
 const path=require('path')
 const mongoose = require('mongoose');
+const User= require('schema/Image')
+
 const app = express() 
 const publicPath=path.join(__dirname,'public')
 app.use(express.static(publicPath));
