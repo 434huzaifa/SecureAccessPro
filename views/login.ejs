@@ -1,0 +1,25 @@
+<%- include('common/base1.ejs',{title:"Login"}) %>
+
+<div class="d-flex flex-row full-viewheight">
+  <div class="flex-fill bg-indigo d-flex justify-content-center align-items-center">
+    <span class="block text-center fw-bold text-blue bg-white logo-padding">LOGO</span>
+  </div>
+  <div class=" d-flex flex-column justify-content-center px-5">
+    <% if (isadmin) { %>
+    <h1 class="mb-5 text-secondary">Admin Login</h1>
+    <% } else { %>
+    <h1 class="mb-5 text-secondary">User Login</h1>
+    <% } %>
+    <form>
+      <div class="mb-3">
+        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="User ID" name="userid">
+      </div>
+      <div class="mb-3">
+        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Submit</button>
+    </form>
+  </div>
+</div>
+
+<%- include('common/base2.ejs') %>
