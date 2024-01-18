@@ -10,14 +10,14 @@
     <% } else { %>
     <h1 class="mb-5 text-secondary">User Login</h1>
     <% } %>
-    <form>
+    <form onsubmit="Login(event)">
       <div class="mb-3">
-        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="User ID" name="userid">
+        <input required type="number" class="form-control" id="exampleInputEmail1" placeholder="User ID" name="userid">
       </div>
       <div class="mb-3">
-        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
+        <input required type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
       </div>
-      <button type="submit" class="btn btn-primary w-100">Submit</button>
+      <button type="submit"  class="btn btn-primary w-100">Submit</button>
     </form>
   </div>
 </div>

@@ -2,7 +2,7 @@ require('dotenv').config();
 const express=require('express')
 const path=require('path')
 const mongoose = require('mongoose');
-const User= require('schema/Image')
+const {User}= require('./schema')
 
 const app = express() 
 const publicPath=path.join(__dirname,'public')
@@ -15,7 +15,10 @@ mongoose.connect(uri)
 
 async function run() {
     try {
+        app.post("/usercreate",async(req,res)=>{
+            console.log(req.body);
         
+        })
     } catch (error) {
         console.log(`The Error is:${e.message}`);
         return
