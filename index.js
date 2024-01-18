@@ -79,9 +79,10 @@ async function run() {
                   console.log('File deleted successfully');
                 }
                });
-            let user=await User.where("userid").equals(data['userid']).lean()
+            let user=await User.where("userid").equals(data['userid'])
             if (user.length!=0) {
                 user[0].image=response.url;
+                user[0].name=data['name'];
                 user[0].save()
                 res.send({sucess:true})
             }else{

@@ -15,7 +15,13 @@ fileInput.addEventListener('change', function () {
             }
             cropper = new Cropper(imageElement, {
                 aspectRatio: 1 / 1,
-
+                viewMode:2,
+                responsive:true,
+                checkOrientation:true,
+                modal:true,
+                background:true,
+                rotatable:true,
+                zoomOnWheel:true,
             });
         });
         reader.readAsDataURL(file);
@@ -32,7 +38,6 @@ function updateUser(e) {
     cropper.getCroppedCanvas().toBlob((blob) => {
         let t=String(img).split("\\")
         t=t[t.length-1]
-        console.log(t);
         formdata.append('image', blob,t);
         formdata.append('userid', localStorage.getItem("userid"))
         console.log(Object.fromEntries(formdata));
