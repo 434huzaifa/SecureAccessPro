@@ -16,8 +16,23 @@ mongoose.connect(uri)
 async function run() {
     try {
         app.post("/usercreate",async(req,res)=>{
-            console.log(req.body);
-        
+            try {
+                let data=req.body
+            let user=new User({
+                    name:data['userid'],
+                    password:data['pass'],
+            })
+            let result=await user.save()
+            res.send(result)
+            } catch (e) {
+                console.log(`The Error is:${e.message}`);
+                res.status(500).send(`${e.message}`)
+            }
+        })
+        app.get("/users",async(req,res)=>{
+            let users= await User.find().limit(2).lean()
+            console.log(users);
+            res.send(users)
         })
     } catch (error) {
         console.log(`The Error is:${e.message}`);
@@ -37,8 +52,9 @@ app.get("/userlogin",(_,res)=>{
     res.render("login",{isadmin:false})
 })
 
-app.get("/createuser",(_,res)=>{
-    res.render("createuser")
+app.get("/createuser",async (_,res)=>{
+    let users= await User.find().sort("-_id").limit(2).lean()
+    res.render("createuser",{users})
 })
 
 

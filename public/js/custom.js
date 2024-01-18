@@ -1,4 +1,12 @@
-function showToast(msg, textColor = "red", bg = "white") {
+function handelError(err,msg=""){
+  if (err?.response?.data) {
+    showToast(`${msg}.${err.response.data}`)
+  }else{
+    showToast("Something error")
+  }
+}
+
+function showToast(msg, textColor = "red", bg = "white",callback=()=>{}) {
   Toastify({
     text: msg,
     duration: 2000,
@@ -11,14 +19,30 @@ function showToast(msg, textColor = "red", bg = "white") {
       background: bg,
       color: textColor,
     },
-    onClick: function () { } // Callback after click
+    callback:callback
   }).showToast();
 }
+
+
+
+
+function createUser(e) {
+  e.preventDefault();
+  let data = Object.fromEntries(new FormData(e.target))
+  axios.post("/usercreate",data).then(res=>{
+    if (res?.data?._id) {
+      showToast("User Created",'white','green',callback=window.location.reload()  )
+    }
+  }).catch(err=>{
+    handelError(err,msg="User Creation failed")
+  })
+}
+
 
 function Login(e) {
   e.preventDefault();
   let data = Object.fromEntries(new FormData(e.target))
-  console.log(data);
+
   if (data['userid'] == "456123") {
     if (data['pass'] == "456789") {
       window.location = "/createuser"
@@ -30,3 +54,4 @@ function Login(e) {
     showToast("Admin User Id or Password Wrong")
   }
 }
+
