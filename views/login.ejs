@@ -17,6 +17,11 @@
       <div class="mb-3">
         <input required type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="pass">
       </div>
+      <% if (isadmin) { %>
+        <input type="checkbox" hidden name="isadmin" checked >
+        <% } else { %>
+        <input type="checkbox" hidden name="isadmin">
+        <% } %>
       <button type="submit"  class="btn btn-primary w-100">Submit</button>
     </form>
   </div>

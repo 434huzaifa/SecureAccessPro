@@ -1,12 +1,14 @@
-function handelError(err,msg=""){
+
+
+function handelError(err, msg = "") {
   if (err?.response?.data) {
     showToast(`${msg}.${err.response.data}`)
-  }else{
+  } else {
     showToast("Something error")
   }
 }
 
-function showToast(msg, textColor = "red", bg = "white",callback=()=>{}) {
+function showToast(msg, textColor = "red", bg = "white", callback = () => { }) {
   Toastify({
     text: msg,
     duration: 2000,
@@ -19,7 +21,7 @@ function showToast(msg, textColor = "red", bg = "white",callback=()=>{}) {
       background: bg,
       color: textColor,
     },
-    callback:callback
+    callback: callback
   }).showToast();
 }
 
@@ -29,12 +31,12 @@ function showToast(msg, textColor = "red", bg = "white",callback=()=>{}) {
 function createUser(e) {
   e.preventDefault();
   let data = Object.fromEntries(new FormData(e.target))
-  axios.post("/usercreate",data).then(res=>{
+  axios.post("/usercreate", data).then(res => {
     if (res?.data?._id) {
-      showToast("User Created",'white','green',callback=window.location.reload()  )
+      showToast("User Created", 'white', 'green', callback = window.location.reload())
     }
-  }).catch(err=>{
-    handelError(err,msg="User Creation failed")
+  }).catch(err => {
+    handelError(err, msg = "User Creation failed")
   })
 }
 
@@ -42,16 +44,31 @@ function createUser(e) {
 function Login(e) {
   e.preventDefault();
   let data = Object.fromEntries(new FormData(e.target))
-
-  if (data['userid'] == "456123") {
-    if (data['pass'] == "456789") {
-      window.location = "/createuser"
-    }
-    else {
+  if (!!data?.isadmin) {
+    if (data['userid'] == "456123") {
+      if (data['pass'] == "456789") {
+        
+        window.location = "/createuser"
+      }
+      else {
+        showToast("Admin User Id or Password Wrong")
+      }
+    } else {
       showToast("Admin User Id or Password Wrong")
     }
-  } else {
-    showToast("Admin User Id or Password Wrong")
+  }else{
+    axios.post(`/user`,data).then(res=>{
+      if (res?.data.valid) {
+        localStorage.setItem("userid",data['userid']);
+        showToast("User Found","white","green");
+        window.location="/userupdate";
+      }else{
+        showToast("User Not Found")
+      }
+    }).catch(err=>{
+      handelError(err)
+    })
   }
+  
 }
 
