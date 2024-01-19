@@ -60,7 +60,7 @@ function Login(e) {
       if (res?.data.valid) {
         localStorage.setItem("userid", data['userid']);
         showToast("User Found", "white", "green");
-        window.location = "/userupdate";
+        window.location = `/userupdate?id=${localStorage.getItem("userid")}`;
       } else {
         showToast("User Not Found")
       }

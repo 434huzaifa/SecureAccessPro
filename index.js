@@ -90,7 +90,6 @@ async function run() {
 
         })
         app.get("/singleuser",async(req,res)=>{
-            console.log(req.query.id);
             let id=req.query.id
             let user=await User.where("userid").equals(id).lean()
             if (user.length!=0) {
@@ -135,8 +134,10 @@ app.get("/userlogin", (_, res) => {
     res.render("login", { isadmin: false })
 })
 
-app.get("/userupdate", (_, res) => {
-    res.render("imageuser", { isadmin: false })
+app.get("/userupdate", async(req, res) => {
+    let id=req.query.id
+    let user=await User.where("userid").equals(id).lean()
+    res.render("imageuser", { isadmin: false,user:user[0] })
 })
 
 app.get("/createuser", async (_, res) => {
