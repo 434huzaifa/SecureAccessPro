@@ -1,5 +1,4 @@
 
-
 function handelError(err, msg = "") {
   if (err?.response?.data) {
     showToast(`${msg}.${err.response.data}`)
@@ -47,7 +46,7 @@ function Login(e) {
   if (!!data?.isadmin) {
     if (data['userid'] == "456123") {
       if (data['pass'] == "456789") {
-        
+
         window.location = "/createuser"
       }
       else {
@@ -56,19 +55,29 @@ function Login(e) {
     } else {
       showToast("Admin User Id or Password Wrong")
     }
-  }else{
-    axios.post(`/user`,data).then(res=>{
+  } else {
+    axios.post(`/user`, data).then(res => {
       if (res?.data.valid) {
-        localStorage.setItem("userid",data['userid']);
-        showToast("User Found","white","green");
-        window.location="/userupdate";
-      }else{
+        localStorage.setItem("userid", data['userid']);
+        showToast("User Found", "white", "green");
+        window.location = "/userupdate";
+      } else {
         showToast("User Not Found")
       }
-    }).catch(err=>{
+    }).catch(err => {
       handelError(err)
     })
   }
-  
-}
 
+}
+function action(actionType, btn) {
+  console.log(actionType);
+  console.log(btn.id);
+  axios.get(`/changeuser?id=${btn.id}&action=${actionType}`).then(res => {
+    if (res?.data) {
+      showToast(res.data.msg, "black", "green", window.location.reload())
+    }
+  }).catch(err => {
+    handelError(err)
+  })
+}

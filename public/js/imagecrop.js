@@ -47,8 +47,7 @@ function updateUser(e) {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(function (response) {
-            showToast("User Found", 'white', 'green',)
-            console.log(response);
+            showToast("User Updated", 'white', 'green',window.location.reload())
         }).catch(function (error) {
             handelError(error)
         });

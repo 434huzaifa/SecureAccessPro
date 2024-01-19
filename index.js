@@ -85,7 +85,7 @@ async function run() {
                 user[0].save()
                 res.send({sucess:true})
             }else{
-                res.status(404).send({sucess:false})
+                res.status(404).send("User Not found")
             }
 
         })
@@ -96,8 +96,26 @@ async function run() {
             if (user.length!=0) {
                 res.send(user[0])
             }else{
-                res.status(404).send({sucess:false})
+                res.status(404).send("User Not found")
             }
+        })
+        app.get("/changeuser",async(req,res)=>{
+            let id=req.query.id
+            let action=req.query.action
+            let user=await User.where("userid").equals(id)
+            if (user.length!=0) {
+                if (action=="accept") {
+                    user[0].status="Accept"
+                    user[0].save()
+                    res.send({msg:"User Updated"})
+                }else{
+                    await User.deleteOne({userid:user[0].userid})
+                    res.send({msg:"User Deleted"})
+                }
+            }else{
+                res.status(404).send("User Not found")
+            }
+            
         })
     } catch (error) {
         console.log(`The Error is:${e.message}`);

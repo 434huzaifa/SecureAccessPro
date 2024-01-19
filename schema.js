@@ -3,7 +3,7 @@ const humanizeErrors = require('mongoose-error-humanizer')
 const userSchema = new mongoose.Schema({
     name:{
         type:String,
-        default:null
+        default:"-"
     },
     userid:{
         type:String,
