@@ -12,7 +12,7 @@ const app = express()
 const publicPath = path.join(__dirname, 'public')
 app.use(express.static(publicPath));
 app.use(express.json());
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs') // EJS er jonno alada library install kora lagbe na. eta dewa matroi EJS view name Folder khujbe.
 const uri = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@saaddb.bmj48ga.mongodb.net/SecureAccessPro?retryWrites=true&w=majority`
 mongoose.connect(uri)
 
@@ -68,7 +68,6 @@ async function run() {
         app.post("/updateuser",upload.single('image'), async (req, res, next) => {
             let data = req.body
             var imgPath = `uploads\\${req.file.originalname}`;
-            console.log(imgPath);
             let response= await cloudinary.uploader.upload(imgPath,
             { public_id: req.file.originalname }, 
             function(error, result) {return result});
@@ -86,9 +85,19 @@ async function run() {
                 user[0].save()
                 res.send({sucess:true})
             }else{
-                res.status(404).send({sucess:true})
+                res.status(404).send({sucess:false})
             }
 
+        })
+        app.get("/singleuser",async(req,res)=>{
+            console.log(req.query.id);
+            let id=req.query.id
+            let user=await User.where("userid").equals(id).lean()
+            if (user.length!=0) {
+                res.send(user[0])
+            }else{
+                res.status(404).send({sucess:false})
+            }
         })
     } catch (error) {
         console.log(`The Error is:${e.message}`);
@@ -102,7 +111,7 @@ app.get("", (_, res) => {
     res.render("home")
 })
 app.get("/adminlogin", (_, res) => {
-    res.render("login", { isadmin: true })
+    res.render("login", { isadmin: true })// render er first arg hosse file er name. 2nd passing data
 })
 app.get("/userlogin", (_, res) => {
     res.render("login", { isadmin: false })
@@ -115,6 +124,11 @@ app.get("/userupdate", (_, res) => {
 app.get("/createuser", async (_, res) => {
     let users = await User.find().sort("-_id").limit(2).lean()
     res.render("createuser", { users })
+})
+
+app.get('/userinfos',async(_,res)=>{
+    let users=await User.find().sort("status").lean()
+    res.render("userinfos",{users})
 })
 
 

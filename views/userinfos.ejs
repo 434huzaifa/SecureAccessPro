@@ -1,0 +1,35 @@
+<%- include('common/base1.ejs',{title:"User Info"}) %>
+    <div class="p-5">
+        <a type="button" class="btn btn-outline-primary" href="/createuser">&#60 Back</a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">User ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(item=> { %>
+                    <tr scope="row">
+                        <td>
+                            <%= item.userid %>
+                        </td>
+                        <td>
+                            <%= item.name %>
+                        </td>
+                        <td>
+                            <img src=<%=item.userid %> alt="">
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary">Primary</button><button type="button"
+                                class="btn btn-primary">Primary</button>
+                        </td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+        </table>
+    </div>
+
+    <%- include('common/base2.ejs') %>
